@@ -25,6 +25,13 @@ namespace ReadLater.Services
             return bookmark;
         }
 
+        public Bookmark UpdateBookmark(Bookmark bookmark) {
+            
+            _unitOfWork.Repository<Bookmark>().Update(bookmark);
+            _unitOfWork.Save();
+            return bookmark;
+        }
+
         public List<Bookmark> GetBookmarks(string category)
         {
             if (string.IsNullOrEmpty(category))
@@ -41,6 +48,14 @@ namespace ReadLater.Services
                                                             .Get()
                                                             .ToList();
             }
+        }
+
+        public bool DeleteBookmark(int id)
+        {
+            Bookmark bookmark = _unitOfWork.Repository<Bookmark>().FindById(id);
+            _unitOfWork.Repository<Bookmark>().Delete(bookmark);
+            _unitOfWork.Save();
+            return true;
         }
     }
 }
